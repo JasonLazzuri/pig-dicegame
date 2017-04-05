@@ -34,9 +34,9 @@
   * Input: Click Stop
   * Output: Turn ends, player's accumulated score += turn total. -->
 
-* If a player's total score gets to 100 or more, the game ends, and that player wins.
+<!-- * If a player's total score gets to 100 or more, the game ends, and that player wins.
   * Input: player1.totalScore >= 100
-  * Output: player 1 Wins!
+  * Output: player 1 Wins! -->
 
 ## Setup/Installation Requirements
 

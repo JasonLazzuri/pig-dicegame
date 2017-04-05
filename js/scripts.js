@@ -12,7 +12,7 @@ function Player(name, isTurn, turnScore, totalScore) {
 }
 
 $(document).ready(function() {
-  var player1 = new Player(player1, true, 0, 99);
+  var player1 = new Player(player1, true, 0, 0);
   var player2 = new Player(player2, false, 0, 0);
 
   var rollResult = 0;
