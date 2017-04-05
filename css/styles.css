@@ -1,0 +1,6 @@
+#player1-wins, #player2-wins {
+  display: none;
+  background-color: teal;
+  font-size: 24pt;
+  color: white;
+}
