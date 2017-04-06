@@ -44,20 +44,21 @@ function stop(currentPlayer, otherPlayer) {
   $("#" + otherPlayer.playerName + "-column").addClass("bg-success");
   $("#current-turn-score").text(0);
   currentPlayer.turnScore = 0;
-}
-
   if (player1.totalScore >= 100) {
     $("#player1-wins").show();
     $("body").css('background-color', 'orange');
     $("#player2-column").removeClass("bg-success");
+    $("#roll").hide();
+    $("#stop").hide();
   }
-
   if (player2.totalScore >= 100) {
     $("#player2-wins").show();
     $("body").css('background-color', 'lightblue');
     $("#player1-column").removeClass("bg-success");
+    $("#roll").hide();
+    $("#stop").hide();
   }
-
+}
 $(document).ready(function() {
   $("#player1-column").addClass("bg-success");
 
