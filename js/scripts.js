@@ -1,5 +1,12 @@
-var player1 = new Player(player1, true, 0, 0);
-var player2 = new Player(player2, false, 0, 0);
+function Player(playerName, isTurn, turnScore, totalScore) {
+  this.playerName = playerName;
+  this.isTurn = isTurn;
+  this.turnScore = turnScore;
+  this.totalScore = totalScore;
+}
+
+var player1 = new Player("player1", true, 0, 0);
+var player2 = new Player("player2", false, 0, 0);
 
 var rollResult = 0;
 
@@ -9,35 +16,22 @@ function dice() {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function roll() {
+function roll(currentPlayer, otherPlayer) {
   rollResult = 0;
   rollResult += dice();
   $("#result").text(rollResult);
-  if (player1.isTurn === true) {
+  if (currentPlayer.isTurn === true) {
     if (rollResult === 1) {
-      player1.turnScore = 0;
-      player1.isTurn = false;
-      player2.isTurn = true;
-      $("#player1-turns").append("<li>" + 0 + "</li>");
-      $("#player1-column").removeClass("bg-success");
-      $("#player2-column").addClass("bg-success");
+      currentPlayer.turnScore = 0;
+      currentPlayer.isTurn = false;
+      otherPlayer.isTurn = true;
+      $("#" + currentPlayer.playerName + "-turns").append("<li>" + 0 + "</li>");
+      $("#" + currentPlayer.playerName + "-column").removeClass("bg-success");
+      $("#" + otherPlayer.playerName + "-column").addClass("bg-success");
       $("#current-turn-score").text(0);
     } else {
-      player1.turnScore += rollResult;
-      $("#current-turn-score").text(player1.turnScore);
-    }
-  } else {
-    if (rollResult === 1) {
-      player2.turnScore = 0;
-      player2.isTurn = false;
-      player1.isTurn = true;
-      $("#player2-turns").append("<li>" + 0 + "</li>");
-      $("#player2-column").removeClass("bg-success");
-      $("#player1-column").addClass("bg-success");
-      $("#current-turn-score").text(0);
-    } else {
-      player2.turnScore += rollResult;
-      $("#current-turn-score").text(player2.turnScore);
+      currentPlayer.turnScore += rollResult;
+      $("#current-turn-score").text(currentPlayer.turnScore);
     }
   }
 }
@@ -78,18 +72,16 @@ function stop() {
   }
 }
 
-function Player(name, isTurn, turnScore, totalScore) {
-  this.name = name;
-  this.isTurn = isTurn;
-  this.turnScore = turnScore;
-  this.totalScore = totalScore;
-}
-
 $(document).ready(function() {
   $("#player1-column").addClass("bg-success");
 
   $("#roll").click(function() {
-    roll();
+    console.log(player1.isTurn);
+    if (player1.isTurn === true) {
+      roll(player1, player2);
+    } else {
+      roll(player2, player1);
+    }
   });
 
   $("#stop").click(function() {
