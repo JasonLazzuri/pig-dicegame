@@ -20,44 +20,31 @@ function roll(currentPlayer, otherPlayer) {
   rollResult = 0;
   rollResult += dice();
   $("#result").text(rollResult);
-  if (currentPlayer.isTurn === true) {
-    if (rollResult === 1) {
-      currentPlayer.turnScore = 0;
-      currentPlayer.isTurn = false;
-      otherPlayer.isTurn = true;
-      $("#" + currentPlayer.playerName + "-turns").append("<li>" + 0 + "</li>");
-      $("#" + currentPlayer.playerName + "-column").removeClass("bg-success");
-      $("#" + otherPlayer.playerName + "-column").addClass("bg-success");
-      $("#current-turn-score").text(0);
-    } else {
-      currentPlayer.turnScore += rollResult;
-      $("#current-turn-score").text(currentPlayer.turnScore);
-    }
+  if (rollResult === 1) {
+    currentPlayer.turnScore = 0;
+    currentPlayer.isTurn = false;
+    otherPlayer.isTurn = true;
+    $("#" + currentPlayer.playerName + "-turns").append("<li>" + 0 + "</li>");
+    $("#" + currentPlayer.playerName + "-column").removeClass("bg-success");
+    $("#" + otherPlayer.playerName + "-column").addClass("bg-success");
+    $("#current-turn-score").text(0);
+  } else {
+    currentPlayer.turnScore += rollResult;
+    $("#current-turn-score").text(currentPlayer.turnScore);
   }
 }
 
-function stop() {
-  if (player1.isTurn === true) {
-    player1.totalScore += player1.turnScore;
-    player1.isTurn = false;
-    player2.isTurn = true;
-    $("#player1-turns").append("<li>" + player1.turnScore + "</li>");
-    player1.turnScore = 0;
-    $("#player1-score").text(player1.totalScore);
-    $("#player1-column").removeClass("bg-success");
-    $("#player2-column").addClass("bg-success");
-    $("#current-turn-score").text(0);
-  } else {
-    player2.totalScore += player2.turnScore;
-    player2.isTurn = false;
-    player1.isTurn = true;
-    $("#player2-turns").append("<li>" + player2.turnScore + "</li>");
-    player2.turnScore = 0;
-    $("#player2-score").text(player2.totalScore);
-    $("#player2-column").removeClass("bg-success");
-    $("#player1-column").addClass("bg-success");
-    $("#current-turn-score").text(0);
-  }
+function stop(currentPlayer, otherPlayer) {
+  currentPlayer.totalScore += currentPlayer.turnScore;
+  currentPlayer.isTurn = false;
+  otherPlayer.isTurn = true;
+  $("#" + currentPlayer.playerName + "-turns").append("<li>" + currentPlayer.turnScore + "</li>");
+  $("#" + currentPlayer.playerName + "-score").text(currentPlayer.totalScore);
+  $("#" + currentPlayer.playerName + "-column").removeClass("bg-success");
+  $("#" + otherPlayer.playerName + "-column").addClass("bg-success");
+  $("#current-turn-score").text(0);
+  currentPlayer.turnScore = 0;
+}
 
   if (player1.totalScore >= 100) {
     $("#player1-wins").show();
@@ -70,13 +57,11 @@ function stop() {
     $("body").css('background-color', 'lightblue');
     $("#player1-column").removeClass("bg-success");
   }
-}
 
 $(document).ready(function() {
   $("#player1-column").addClass("bg-success");
 
   $("#roll").click(function() {
-    console.log(player1.isTurn);
     if (player1.isTurn === true) {
       roll(player1, player2);
     } else {
@@ -85,6 +70,10 @@ $(document).ready(function() {
   });
 
   $("#stop").click(function() {
-    stop();
+    if (player1.isTurn === true) {
+      stop(player1, player2);
+    } else {
+      stop(player2, player1);
+    }
   });
 });
